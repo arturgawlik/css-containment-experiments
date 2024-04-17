@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css containment experiments</title>
+    <style>
+        article {
+            contain: layout paint style;
+        }
+
+        /* span {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        } */
+    </style>
+</head>
+<body>
+    <template>
+        <article>
+            <h1></h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla et cum est minus autem architecto ab id officia incidunt aliquam. Ipsam voluptatem dolorem obcaecati nobis, nam iste ipsum eligendi inventore?</p>
+        </article>    
+    </template>
+    <script type="module">
+        const template = document.querySelector('template');
+
+        for (let index = 0; index < 100_000; index++) {
+            await Promise.resolve().then(() => {
+                const newArticle = template.content.cloneNode(true);
+                newArticle.querySelector("h1").innerText = `This is article number ${index + 1}`;
+                document.body.appendChild(newArticle);    
+            });
+        }
+    </script>
+</body>
+</html>
